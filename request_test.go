@@ -279,3 +279,12 @@ func TestSetBodyXML(t *testing.T) {
 	r.SetBodyXML()
 	require.Equal(t, "application/xml; charset=UTF-8", r.request.Header.Get("Content-Type"))
 }
+
+func TestSetTransport(t *testing.T) {
+	r := New("")
+	transportConfig := &http.Transport{
+		MaxIdleConns: 2,
+	}
+	r.SetTransport(transportConfig)
+	require.Equal(t, transportConfig, r.client.Transport)
+}

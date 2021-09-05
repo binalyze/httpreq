@@ -72,6 +72,12 @@ func (r *Req) SetContentType(contentType string) *Req {
 	return r
 }
 
+//SetTransport sets transport configuration of request
+func (r *Req) SetTransport(transport *http.Transport) *Req {
+	r.client.Transport = transport
+	return r
+}
+
 // SetBody sets request body
 func (r *Req) SetBody(data []byte) *Req {
 	r.request.Body = ioutil.NopCloser(bytes.NewReader(data))
