@@ -273,3 +273,9 @@ func TestGenerateURL(t *testing.T) {
 	require.Error(t, err)
 	require.Nil(t, url)
 }
+
+func TestSetBodyXML(t *testing.T) {
+	r := New("")
+	r.SetBodyXML()
+	require.Equal(t, "application/xml; charset=UTF-8", r.request.Header.Get("Content-Type"))
+}

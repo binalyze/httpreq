@@ -83,6 +83,12 @@ func (r *Req) SetBody(data []byte) *Req {
 	return r
 }
 
+//SetBodyXML sets content type as XML.
+func (r *Req) SetBodyXML() *Req {
+	r.SetContentType("application/xml; charset=UTF-8")
+	return r
+}
+
 // SetForm creates form and add files and data to form.
 func (r *Req) SetForm(files []map[string]string, fields []map[string]string) *Req {
 
