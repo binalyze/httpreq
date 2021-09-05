@@ -20,6 +20,15 @@
 req := httpreq.New(url)
 resp, err := req.Get()
 ```
+
+## Roadmap
+
+- Support query parameters
+- Support cookies
+- Support XML
+- Support proxy
+- Configurable transport
+
 ## Usage
 
 Here is an example to use some helper methods of `httpreq`. You can find more examples in test files.
@@ -67,11 +76,3 @@ Here is an example to use some helper methods of `httpreq`. You can find more ex
   // Headers
   headers := resp.Headers()
 ```
-
-## Roadmap
-
-- Support query parameters
-- Support cookies
-- Support XML
-- Support proxy
-- Configure transport
