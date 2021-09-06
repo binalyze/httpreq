@@ -73,6 +73,12 @@ func (r *Req) SetContentType(contentType string) *Req {
 	return r
 }
 
+// SetCookie sets a cookie to the request
+func (r *Req) SetCookie(c *http.Cookie) *Req {
+	r.request.AddCookie(c)
+	return r
+}
+
 //SetTransport sets transport configuration of request
 func (r *Req) SetTransport(transport *http.Transport) *Req {
 	r.client.Transport = transport
@@ -148,6 +154,7 @@ func (r *Req) SetForm(files []map[string]string, fields []map[string]string) *Re
 	return r
 }
 
+
 func (r *Req) SetParam(param, value string) *Req {
 	r.Params.Set(param, value)
 	return r
@@ -159,6 +166,16 @@ func (r *Req) SetParams(queryParams map[string]string) *Req {
 	for key, value := range queryParams {
 		params.Add(key, value)
 	}
+
+// SetProxy sets proxy URL to http client
+func (r *Req) SetProxy(u string) *Req {
+	proxyURL, err := url.Parse(u)
+	if err != nil {
+		r.err = err
+		return r
+	}
+	r.client.Transport.(*http.Transport).Proxy = http.ProxyURL(proxyURL)
+
 	return r
 }
 
