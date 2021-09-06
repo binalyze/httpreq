@@ -20,6 +20,7 @@ var logger Logger = NewBuiltinLogger()
 type Req struct {
 	request *http.Request
 	client  *http.Client
+	Params   url.Values
 	address string
 	err     error
 }
@@ -144,6 +145,15 @@ func (r *Req) SetForm(files []map[string]string, fields []map[string]string) *Re
 	r.request.ContentLength = int64(b.Len())
 	r.request.Header.Set("Content-Type", w.FormDataContentType())
 
+	return r
+}
+
+// SetParams for set multi or single parameter.
+func (r *Req) SetParams(queryParams map[string]string) *Req {
+	params := r.Params
+	for key, value := range queryParams {
+		params.Add(key, value)
+	}
 	return r
 }
 
