@@ -280,6 +280,21 @@ func TestSetBodyXML(t *testing.T) {
 	require.Equal(t, "application/xml; charset=UTF-8", r.request.Header.Get("Content-Type"))
 }
 
+func TestSetCookie(t *testing.T) {
+	r := New("")
+
+	testCookie := &http.Cookie{
+		Name:  "sample",
+		Value: "test value",
+	}
+
+	r.SetCookie(testCookie)
+
+	cookie, err := r.request.Cookie("sample")
+	require.NoError(t, err)
+	require.Equal(t, cookie.Value, "test value")
+}
+
 func TestSetTransport(t *testing.T) {
 	r := New("")
 	transportConfig := &http.Transport{

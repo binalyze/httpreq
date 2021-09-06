@@ -72,6 +72,12 @@ func (r *Req) SetContentType(contentType string) *Req {
 	return r
 }
 
+// SetCookie sets a cookie to the request
+func (r *Req) SetCookie(c *http.Cookie) *Req {
+	r.request.AddCookie(c)
+	return r
+}
+
 //SetTransport sets transport configuration of request
 func (r *Req) SetTransport(transport *http.Transport) *Req {
 	r.client.Transport = transport
