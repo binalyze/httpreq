@@ -148,6 +148,11 @@ func (r *Req) SetForm(files []map[string]string, fields []map[string]string) *Re
 	return r
 }
 
+func (r *Req) SetParam(param, value string) *Req {
+	r.Params.Set(param, value)
+	return r
+}
+
 // SetParams for set multi or single parameter.
 func (r *Req) SetParams(queryParams map[string]string) *Req {
 	params := r.Params
