@@ -289,7 +289,6 @@ func TestSetTransport(t *testing.T) {
 	require.Equal(t, transportConfig, r.client.Transport)
 }
 
-
 func TestSetProxy(t *testing.T) {
 	url := "http://proxy.com:1234"
 	r := New("")

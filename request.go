@@ -154,10 +154,7 @@ func (r *Req) SetProxy(u string) *Req {
 		r.err = err
 		return r
 	}
-	transport := http.Transport{}
-	transport.Proxy = http.ProxyURL(proxyURL)
-
-	r.client.Transport = &transport
+	r.client.Transport.(*http.Transport).Proxy = http.ProxyURL(proxyURL)
 	return r
 }
 
