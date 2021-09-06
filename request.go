@@ -147,6 +147,20 @@ func (r *Req) SetForm(files []map[string]string, fields []map[string]string) *Re
 	return r
 }
 
+// SetProxy sets proxy URL to http client
+func (r *Req) SetProxy(u string) *Req {
+	proxyURL, err := url.Parse(u)
+	if err != nil {
+		r.err = err
+		return r
+	}
+	transport := http.Transport{}
+	transport.Proxy = http.ProxyURL(proxyURL)
+
+	r.client.Transport = &transport
+	return r
+}
+
 // Get is a get http request
 func (r *Req) Get() (*Response, error) {
 	return r.send(http.MethodGet)
