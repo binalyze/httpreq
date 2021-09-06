@@ -96,6 +96,10 @@ func TestPost(t *testing.T) {
 			require.Equal(t, req.Header.Get("Content-Type"), "application/json")
 			require.Equal(t, req.Header.Get("Test-Header"), "this is a test")
 
+			cookie, cookieErr := req.Cookie("sample")
+			require.NoError(t, cookieErr)
+			require.Equal(t, cookie.Value, "test value")
+
 			rw.Header().Set("Content-Type", "application/json")
 			_, err := rw.Write([]byte(responseData))
 			require.NoError(t, err)
@@ -114,6 +118,10 @@ func TestPost(t *testing.T) {
 	r.SetTimeout(30 * time.Second)
 	r.SetHeaders(map[string]string{"Test-Header": "this is a test"})
 	r.SetContentType("application/json")
+	r.SetCookie(&http.Cookie{
+		Name:  "sample",
+		Value: "test value",
+	})
 
 	info := &Data{
 		FirstName: "John",
