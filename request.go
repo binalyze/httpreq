@@ -2,6 +2,7 @@ package httpreq
 
 import (
 	"bytes"
+	"context"
 	"crypto/tls"
 	"errors"
 	"io"
@@ -25,7 +26,7 @@ type Req struct {
 }
 
 // New creates a new HTTP Request
-func New(address string) *Req {
+func New(ctx context.Context, address string) *Req {
 
 	r := new(Req)
 
@@ -34,6 +35,15 @@ func New(address string) *Req {
 	r.request = &http.Request{
 		Method: "GET",
 		Header: make(http.Header),
+	}
+	if ctx != nil {
+		// If ctx is passed as <nil>  and try to assign
+		// to request, it throws panic. To prevent panic,
+		// this if-condition checks the ctx value and request
+		// context is assigned as context.Background as
+		// default. If you are not sure about which context
+		// needs to be used, context.TODO() can be used.
+		r.request.WithContext(ctx)
 	}
 
 	r.client = &http.Client{
