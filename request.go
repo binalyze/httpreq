@@ -32,19 +32,14 @@ func New(ctx context.Context, address string) *Req {
 
 	r.address = address
 
-	r.request = &http.Request{
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	r.request = (&http.Request{
 		Method: "GET",
 		Header: make(http.Header),
-	}
-	if ctx != nil {
-		// If ctx is passed as <nil>  and try to assign
-		// to request, it throws panic. To prevent panic,
-		// this if-condition checks the ctx value and request
-		// context is assigned as context.Background as
-		// default. If you are not sure about which context
-		// needs to be used, context.TODO() can be used.
-		r.request.WithContext(ctx)
-	}
+	}).WithContext(ctx)
 
 	r.client = &http.Client{
 		Transport: http.DefaultTransport.(*http.Transport),

@@ -62,7 +62,7 @@ func TestMethods(t *testing.T) {
 
 	for _, row := range table {
 		url := fmt.Sprintf("%s/"+row.name, server.URL)
-		r := New(context.TODO(), url)
+		r := New(context.Background(), url)
 
 		switch row.name {
 		case "get":
@@ -106,7 +106,7 @@ func TestPost(t *testing.T) {
 
 	url := fmt.Sprintf("%s/post", server.URL)
 
-	r := New(context.TODO(), url)
+	r := New(context.Background(), url)
 
 	tlsConfig := &tls.Config{
 		InsecureSkipVerify: true,
@@ -158,7 +158,7 @@ func TestPostJSON(t *testing.T) {
 
 	url := fmt.Sprintf("%s/post-json", server.URL)
 
-	r := New(context.TODO(), url)
+	r := New(context.Background(), url)
 
 	info := &Data{
 		FirstName: "John",
@@ -205,7 +205,7 @@ func TestSetFormEarlyError(t *testing.T) {
 }
 
 func TestSetFormFileError(t *testing.T) {
-	r := New(context.TODO(), "")
+	r := New(context.Background(), "")
 	files := []map[string]string{}
 	file := make(map[string]string)
 	file["file"] = "/wrong/path"
@@ -219,7 +219,7 @@ func TestSetFormFileError(t *testing.T) {
 func TestSetForm(t *testing.T) {
 
 	// Create new http request instance with URL
-	r := New(context.TODO(),"")
+	r := New(context.Background(),"")
 
 	// File list
 	f, err := ioutil.TempFile("", "_httpreq_set_form_file_*")
@@ -254,7 +254,7 @@ func TestSendEarlyError(t *testing.T) {
 
 func TestSendGenerateURLError(t *testing.T) {
 	// % should causes error at url.Parse
-	r := New(context.TODO(),"%")
+	r := New(context.Background(),"%")
 	resp, err := r.send("GET")
 	require.Error(t, err)
 	require.Nil(t, resp)
@@ -262,7 +262,7 @@ func TestSendGenerateURLError(t *testing.T) {
 
 func TestSendRequestError(t *testing.T) {
 	// wrong-host should causes request error
-	r := New(context.TODO(),"wrong-host")
+	r := New(context.Background(),"wrong-host")
 	resp, err := r.send("GET")
 	require.Error(t, err)
 	require.Nil(t, resp)
@@ -276,13 +276,13 @@ func TestGenerateURL(t *testing.T) {
 }
 
 func TestSetBodyXML(t *testing.T) {
-	r := New(context.TODO(),"")
+	r := New(context.Background(),"")
 	r.SetBodyXML()
 	require.Equal(t, "application/xml; charset=UTF-8", r.request.Header.Get("Content-Type"))
 }
 
 func TestSetCookie(t *testing.T) {
-	r := New(context.TODO(),"")
+	r := New(context.Background(),"")
 
 	testCookie := &http.Cookie{
 		Name:  "sample",
@@ -297,7 +297,7 @@ func TestSetCookie(t *testing.T) {
 }
 
 func TestSetTransport(t *testing.T) {
-	r := New(context.TODO(),"")
+	r := New(context.Background(),"")
 	transportConfig := &http.Transport{
 		MaxIdleConns: 2,
 	}
@@ -307,7 +307,7 @@ func TestSetTransport(t *testing.T) {
 
 func TestSetProxy(t *testing.T) {
 	url := "http://proxy.com:1234"
-	r := New(context.TODO(),"")
+	r := New(context.Background(),"")
 	r.SetProxy(url)
 	require.NoError(t, r.err)
 }
