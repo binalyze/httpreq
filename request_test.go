@@ -326,3 +326,11 @@ func TestNilCtx(t *testing.T) {
 	r := New(nil, "")
 	require.Equal(t, context.Background(), r.request.Context())
 }
+
+func TestCancelCtx(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	cancel()
+
+	r := New(ctx, "")
+	require.Equal(t, context.Canceled, r.request.Context().Err())
+}
