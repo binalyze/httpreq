@@ -93,7 +93,6 @@ func TestPost(t *testing.T) {
 			// Test request
 			require.Equal(t, req.URL.String(), "/post")
 			require.Equal(t, req.Method, "POST")
-			require.Equal(t, req.Header.Get("X-SecurityToken"), token)
 			require.Equal(t, req.Header.Get("Content-Type"), "application/json")
 			require.Equal(t, req.Header.Get("Test-Header"), "this is a test")
 
@@ -219,7 +218,7 @@ func TestSetFormFileError(t *testing.T) {
 func TestSetForm(t *testing.T) {
 
 	// Create new http request instance with URL
-	r := New(context.Background(),"")
+	r := New(context.Background(), "")
 
 	// File list
 	f, err := ioutil.TempFile("", "_httpreq_set_form_file_*")
@@ -254,7 +253,7 @@ func TestSendEarlyError(t *testing.T) {
 
 func TestSendGenerateURLError(t *testing.T) {
 	// % should causes error at url.Parse
-	r := New(context.Background(),"%")
+	r := New(context.Background(), "%")
 	resp, err := r.send("GET")
 	require.Error(t, err)
 	require.Nil(t, resp)
@@ -262,7 +261,7 @@ func TestSendGenerateURLError(t *testing.T) {
 
 func TestSendRequestError(t *testing.T) {
 	// wrong-host should causes request error
-	r := New(context.Background(),"wrong-host")
+	r := New(context.Background(), "wrong-host")
 	resp, err := r.send("GET")
 	require.Error(t, err)
 	require.Nil(t, resp)
@@ -276,13 +275,13 @@ func TestGenerateURL(t *testing.T) {
 }
 
 func TestSetBodyXML(t *testing.T) {
-	r := New(context.Background(),"")
+	r := New(context.Background(), "")
 	r.SetBodyXML()
 	require.Equal(t, "application/xml; charset=UTF-8", r.request.Header.Get("Content-Type"))
 }
 
 func TestSetCookie(t *testing.T) {
-	r := New(context.Background(),"")
+	r := New(context.Background(), "")
 
 	testCookie := &http.Cookie{
 		Name:  "sample",
@@ -297,7 +296,7 @@ func TestSetCookie(t *testing.T) {
 }
 
 func TestSetTransport(t *testing.T) {
-	r := New(context.Background(),"")
+	r := New(context.Background(), "")
 	transportConfig := &http.Transport{
 		MaxIdleConns: 2,
 	}
@@ -307,15 +306,16 @@ func TestSetTransport(t *testing.T) {
 
 func TestSetProxy(t *testing.T) {
 	url := "http://proxy.com:1234"
-	r := New(context.Background(),"")
+	r := New(context.Background(), "")
 	r.SetProxy(url)
 	require.NoError(t, r.err)
 }
 
 func TestSetParam(t *testing.T) {
-	r := New("")
+	r := New(context.Background(), "")
 	r.SetParam("test", "test")
 	require.Equal(t, "test", r.Params.Get("test"))
+}
 
 func TestNewWithBackgroundCtx(t *testing.T) {
 	r := New(context.Background(), "")
@@ -338,5 +338,5 @@ func TestCancelCtx(t *testing.T) {
 
 	r := New(ctx, "")
 	require.Equal(t, context.Canceled, r.request.Context().Err())
-  
+
 }
