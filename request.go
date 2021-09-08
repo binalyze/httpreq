@@ -21,6 +21,7 @@ var logger Logger = NewBuiltinLogger()
 type Req struct {
 	request *http.Request
 	client  *http.Client
+	Params  *url.Values
 	address string
 	err     error
 }
@@ -158,6 +159,28 @@ func (r *Req) SetForm(files []map[string]string, fields []map[string]string) *Re
 	return r
 }
 
+func (r *Req) SetParam(param, value string) *Req {
+	if r.Params == nil {
+		r.Params = &url.Values{}
+	}
+	r.Params.Set(param, value)
+	r.address = r.address +"//"+ r.Params.Encode()
+	return r
+}
+
+// SetParams for set multi or single parameter.
+func (r *Req) SetParams(queryParams map[string]string) *Req {
+	if r.Params == nil {
+		r.Params = &url.Values{}
+	}
+	for key, value := range queryParams {
+		r.SetParam(key, value)
+	}
+	r.address = r.address +"//"+ r.Params.Encode()
+	return r
+
+}
+
 // SetProxy sets proxy URL to http client
 func (r *Req) SetProxy(u string) *Req {
 	proxyURL, err := url.Parse(u)
@@ -166,6 +189,7 @@ func (r *Req) SetProxy(u string) *Req {
 		return r
 	}
 	r.client.Transport.(*http.Transport).Proxy = http.ProxyURL(proxyURL)
+
 	return r
 }
 

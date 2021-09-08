@@ -312,6 +312,11 @@ func TestSetProxy(t *testing.T) {
 	require.NoError(t, r.err)
 }
 
+func TestSetParam(t *testing.T) {
+	r := New("")
+	r.SetParam("test", "test")
+	require.Equal(t, "test", r.Params.Get("test"))
+
 func TestNewWithBackgroundCtx(t *testing.T) {
 	r := New(context.Background(), "")
 	require.Equal(t, context.Background(), r.request.Context())
@@ -333,4 +338,5 @@ func TestCancelCtx(t *testing.T) {
 
 	r := New(ctx, "")
 	require.Equal(t, context.Canceled, r.request.Context().Err())
+  
 }
