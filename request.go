@@ -159,7 +159,7 @@ func (r *Req) SetParam(param, value string) *Req {
 		r.Params = &url.Values{}
 	}
 	r.Params.Set(param, value)
-	r.address = r.address + r.Params.Encode()
+	r.address = r.address +"//"+ r.Params.Encode()
 	return r
 }
 
@@ -171,7 +171,7 @@ func (r *Req) SetParams(queryParams map[string]string) *Req {
 	for key, value := range queryParams {
 		r.SetParam(key, value)
 	}
-	r.address = r.address + r.Params.Encode()
+	r.address = r.address +"//"+ r.Params.Encode()
 	return r
 
 }
