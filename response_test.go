@@ -2,6 +2,7 @@ package httpreq
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -30,7 +31,7 @@ func TestResponse(t *testing.T) {
 
 	url := fmt.Sprintf("%s/post", server.URL)
 
-	resp, err := New(url).Get()
+	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	// Test Response()
@@ -123,7 +124,7 @@ func TestSaveFile(t *testing.T) {
 
 	url := fmt.Sprintf("%s/get", server.URL)
 
-	resp, err := New(url).Get()
+	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	dstFile, err := ioutil.TempFile("", "dest-file-*.png")
@@ -179,7 +180,7 @@ func TestDownloadFile(t *testing.T) {
 	url, content, downloadDir := testSetupDownloadFile(t, contentType,
 		func(f string) string { return fmt.Sprintf("attachment;filename=%q", f) })
 
-	resp, err := New(url).Get()
+	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	ctype, filePath, err := resp.DownloadFile(downloadDir)
@@ -198,7 +199,7 @@ func TestDownloadFile_MissingHeader(t *testing.T) {
 
 	url, _, downloadDir := testSetupDownloadFile(t, "", nil)
 
-	resp, err := New(url).Get()
+	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	_, _, err = resp.DownloadFile(downloadDir)
@@ -210,7 +211,7 @@ func TestDownloadFile_BadHeader(t *testing.T) {
 
 	url, _, downloadDir := testSetupDownloadFile(t, "", func(s string) string { return "/" })
 
-	resp, err := New(url).Get()
+	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	_, _, err = resp.DownloadFile(downloadDir)
@@ -221,7 +222,7 @@ func TestDownloadFile_WrongHeader(t *testing.T) {
 
 	url, _, downloadDir := testSetupDownloadFile(t, "", func(string) string { return "attachment;" })
 
-	resp, err := New(url).Get()
+	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	_, _, err = resp.DownloadFile(downloadDir)
