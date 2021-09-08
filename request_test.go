@@ -310,3 +310,9 @@ func TestSetProxy(t *testing.T) {
 	r.SetProxy(url)
 	require.NoError(t, r.err)
 }
+
+func TestSetParam(t *testing.T) {
+	r := New("")
+	r.SetParam("test", "test")
+	require.Equal(t, "test", r.Params.Get("test"))
+}
