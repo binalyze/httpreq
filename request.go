@@ -2,6 +2,7 @@ package httpreq
 
 import (
 	"bytes"
+	"context"
 	"crypto/tls"
 	"errors"
 	"io"
@@ -25,16 +26,20 @@ type Req struct {
 }
 
 // New creates a new HTTP Request
-func New(address string) *Req {
+func New(ctx context.Context, address string) *Req {
 
 	r := new(Req)
 
 	r.address = address
 
-	r.request = &http.Request{
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	r.request = (&http.Request{
 		Method: "GET",
 		Header: make(http.Header),
-	}
+	}).WithContext(ctx)
 
 	r.client = &http.Client{
 		Transport: http.DefaultTransport.(*http.Transport),
