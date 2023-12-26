@@ -30,7 +30,7 @@ func TestResponse(t *testing.T) {
 
 	defer server.Close()
 
-	_, err := New(context.Background(), server.URL).Get()
+	resp, err := New(context.Background(), server.URL).Get()
 
 	require.NoError(t, err)
 
