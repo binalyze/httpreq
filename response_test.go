@@ -27,11 +27,11 @@ func TestResponse(t *testing.T) {
 			require.NoError(t, err)
 		}),
 	)
+
 	defer server.Close()
 
-	url := fmt.Sprintf("%s/post", server.URL)
+	_, err := New(context.Background(), server.URL).Get()
 
-	resp, err := New(context.Background(), url).Get()
 	require.NoError(t, err)
 
 	// Test Response()
@@ -122,9 +122,7 @@ func TestSaveFile(t *testing.T) {
 	)
 	defer server.Close()
 
-	url := fmt.Sprintf("%s/get", server.URL)
-
-	resp, err := New(context.Background(), url).Get()
+	resp, err := New(context.Background(), server.URL).Get()
 	require.NoError(t, err)
 
 	dstFile, err := ioutil.TempFile("", "dest-file-*.png")

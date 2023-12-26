@@ -338,5 +338,4 @@ func TestCancelCtx(t *testing.T) {
 
 	r := New(ctx, "")
 	require.Equal(t, context.Canceled, r.request.Context().Err())
-
 }
