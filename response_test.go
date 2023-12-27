@@ -31,10 +31,10 @@ func TestResponse(t *testing.T) {
 	)
 	defer server.Close()
 
-    req := New(context.Background(), server.URL)
-    req.client.Transport.(*http.Transport).Proxy = nil
+	req := New(context.Background(), server.URL)
+	req.client.Transport.(*http.Transport).Proxy = nil
 
-    resp, err := req.Get()
+	resp, err := req.Get()
 	require.NoError(t, err)
 
 	// Test Response()
