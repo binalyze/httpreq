@@ -23,7 +23,7 @@ func TestResponse(t *testing.T) {
 			rw.Header().Set("Test-Header", "this is response")
 			rw.Header().Set("Content-Type", "application/json")
 
-            http.SetCookie(rw, &cookieData)
+			http.SetCookie(rw, &cookieData)
 
 			_, err := rw.Write([]byte(responseData))
 			require.NoError(t, err)
@@ -51,10 +51,10 @@ func TestResponse(t *testing.T) {
 	require.Equal(t, "this is response", headerValue[0])
 
     // Test Cookies()
-    cookies := resp.Cookies()
-    require.Equal(t, len(cookies), 1)
-    require.Equal(t, cookies[0].Name, cookieData.Name)
-    require.Equal(t, cookies[0].Value, cookieData.Value)
+	cookies := resp.Cookies()
+	require.Equal(t, len(cookies), 1)
+	require.Equal(t, cookies[0].Name, cookieData.Name)
+	require.Equal(t, cookies[0].Value, cookieData.Value)
 
 	// Test Body()
 	result, err := resp.Body()
