@@ -50,7 +50,7 @@ func TestResponse(t *testing.T) {
 	require.True(t, ok)
 	require.Equal(t, "this is response", headerValue[0])
 
-    // Test Cookies()
+	// Test Cookies()
 	cookies := resp.Cookies()
 	require.Equal(t, len(cookies), 1)
 	require.Equal(t, cookies[0].Name, cookieData.Name)
