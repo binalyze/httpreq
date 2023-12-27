@@ -39,6 +39,10 @@ func (r *Response) Headers() http.Header {
 	return r.resp.Header
 }
 
+func (r *Response) Cookies() []*http.Cookie {
+	return r.resp.Cookies()
+}
+
 // Body returns the response body
 func (r *Response) Body() ([]byte, error) {
 	body, err := r.readBody()

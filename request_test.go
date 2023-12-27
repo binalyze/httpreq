@@ -16,6 +16,7 @@ import (
 )
 
 var responseData = `{"success": true,"data": "done!"}`
+var cookieData http.Cookie = http.Cookie{Name: "foo", Value: "bar"}
 var token = `123456`
 
 type Data struct {
@@ -338,5 +339,4 @@ func TestCancelCtx(t *testing.T) {
 
 	r := New(ctx, "")
 	require.Equal(t, context.Canceled, r.request.Context().Err())
-
 }

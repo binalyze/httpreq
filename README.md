@@ -1,3 +1,4 @@
+![Workflow](https://github.com/binalyze/httpreq/actions/workflows/go.yml/badge.svg)
 
 # httpreq
 
@@ -75,4 +76,7 @@ Here is an example to use some helper methods of `httpreq`. You can find more ex
 
   // Headers
   headers := resp.Headers()
+
+  // Cookies
+  cookies := resp.Cookies()
 ```

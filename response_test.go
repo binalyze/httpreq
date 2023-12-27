@@ -23,15 +23,18 @@ func TestResponse(t *testing.T) {
 			rw.Header().Set("Test-Header", "this is response")
 			rw.Header().Set("Content-Type", "application/json")
 
+			http.SetCookie(rw, &cookieData)
+
 			_, err := rw.Write([]byte(responseData))
 			require.NoError(t, err)
 		}),
 	)
 	defer server.Close()
 
-	url := fmt.Sprintf("%s/post", server.URL)
+	req := New(context.Background(), server.URL)
+	req.client.Transport.(*http.Transport).Proxy = nil
 
-	resp, err := New(context.Background(), url).Get()
+	resp, err := req.Get()
 	require.NoError(t, err)
 
 	// Test Response()
@@ -46,6 +49,12 @@ func TestResponse(t *testing.T) {
 	headerValue, ok := headers["Test-Header"]
 	require.True(t, ok)
 	require.Equal(t, "this is response", headerValue[0])
+
+	// Test Cookies()
+	cookies := resp.Cookies()
+	require.Equal(t, len(cookies), 1)
+	require.Equal(t, cookies[0].Name, cookieData.Name)
+	require.Equal(t, cookies[0].Value, cookieData.Value)
 
 	// Test Body()
 	result, err := resp.Body()
@@ -122,9 +131,7 @@ func TestSaveFile(t *testing.T) {
 	)
 	defer server.Close()
 
-	url := fmt.Sprintf("%s/get", server.URL)
-
-	resp, err := New(context.Background(), url).Get()
+	resp, err := New(context.Background(), server.URL).Get()
 	require.NoError(t, err)
 
 	dstFile, err := ioutil.TempFile("", "dest-file-*.png")
