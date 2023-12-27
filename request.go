@@ -84,7 +84,7 @@ func (r *Req) SetCookie(c *http.Cookie) *Req {
 	return r
 }
 
-//SetTransport sets transport configuration of request
+// SetTransport sets transport configuration of request
 func (r *Req) SetTransport(transport *http.Transport) *Req {
 	r.client.Transport = transport
 	return r
@@ -101,7 +101,7 @@ func (r *Req) SetBody(data []byte) *Req {
 	return r
 }
 
-//SetBodyXML sets content type as XML.
+// SetBodyXML sets content type as XML.
 func (r *Req) SetBodyXML() *Req {
 	r.SetContentType("application/xml; charset=UTF-8")
 	return r
@@ -164,7 +164,7 @@ func (r *Req) SetParam(param, value string) *Req {
 		r.Params = &url.Values{}
 	}
 	r.Params.Set(param, value)
-	r.address = r.address +"//"+ r.Params.Encode()
+	r.address = r.address + "//" + r.Params.Encode()
 	return r
 }
 
@@ -176,7 +176,7 @@ func (r *Req) SetParams(queryParams map[string]string) *Req {
 	for key, value := range queryParams {
 		r.SetParam(key, value)
 	}
-	r.address = r.address +"//"+ r.Params.Encode()
+	r.address = r.address + "//" + r.Params.Encode()
 	return r
 
 }
