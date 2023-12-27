@@ -76,4 +76,7 @@ Here is an example to use some helper methods of `httpreq`. You can find more ex
 
   // Headers
   headers := resp.Headers()
+
+  // Cookies
+  cookies := resp.Cookies()
 ```
