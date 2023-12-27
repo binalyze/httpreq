@@ -1,3 +1,4 @@
+![Workflow](https://github.com/binalyze/httpreq/actions/workflows/go.yml/badge.svg)
 
 # httpreq
 
